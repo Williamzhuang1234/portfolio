@@ -1,0 +1,372 @@
+/*
+  Mobile-first stylesheet.
+  The styles at the top are for phones. The @media block near the bottom
+  adds changes for wider screens (tablets and desktops).
+*/
+
+/* ---------- Design tokens (reusable values) ---------- */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-alt: #f4f6fb;
+  --color-text: #1c2230;
+  --color-muted: #5b6475;
+  --color-primary: #2f5bea;
+  --color-primary-dark: #2246bd;
+  --color-border: #e1e5ee;
+
+  /* System fonts load instantly because they're already on the device */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  --space-s: 0.5rem;
+  --space-m: 1rem;
+  --space-l: 2rem;
+  --space-xl: 4rem;
+
+  --max-width: 1100px;
+  --radius: 12px;
+}
+
+/* ---------- Reset ---------- */
+/* border-box makes padding count inside an element's width, so layouts don't overflow */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Smoothly scroll to sections when a nav link is clicked */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Turn off smooth scrolling for people who've asked their device to reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Base ---------- */
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+/* Clear outline when navigating with the keyboard */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin-bottom: var(--space-l);
+}
+
+/* Centers content and keeps a 1rem gap from the screen edges on phones */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-m);
+}
+
+/* A slimmer container for text-heavy sections, since long lines are hard to read */
+.container.narrow {
+  max-width: 700px;
+}
+
+/* Hides text visually but keeps it readable by screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Header & navigation ---------- */
+.site-header {
+  /* sticky keeps the header at the top while scrolling */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+}
+
+.logo {
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* Hamburger button (phones only) */
+.nav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* One span draws the middle line; ::before and ::after draw the top and bottom lines */
+.nav-toggle-bar,
+.nav-toggle-bar::before,
+.nav-toggle-bar::after {
+  display: block;
+  position: relative;
+  width: 24px;
+  height: 2px;
+  background: var(--color-text);
+}
+
+.nav-toggle-bar::before,
+.nav-toggle-bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.nav-toggle-bar::before {
+  top: -7px;
+}
+
+.nav-toggle-bar::after {
+  top: 7px;
+}
+
+/* On phones the links are hidden until the menu is opened.
+   The menu drops down below the header (position: absolute). */
+.nav-links {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: var(--space-s) var(--space-m) var(--space-m);
+  list-style: none;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* js/main.js adds the "open" class when the hamburger is clicked */
+.nav-links.open {
+  display: block;
+}
+
+.nav-links a {
+  display: block;
+  padding: var(--space-s) 0;
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: var(--color-primary);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: var(--space-xl) 0;
+  background: var(--color-bg-alt);
+}
+
+.hero-kicker {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.hero h1 {
+  /* clamp(min, preferred, max): the size grows with screen width (vw)
+     but never goes below 2.5rem or above 4rem */
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: var(--space-m);
+}
+
+.hero-pitch {
+  font-size: 1.15rem;
+  color: var(--color-muted);
+  max-width: 34rem;
+  margin-bottom: var(--space-l);
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap; /* lets the buttons stack if there isn't room side by side */
+  gap: var(--space-m);
+}
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.button-outline {
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.button-outline:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* ---------- Sections ---------- */
+.section {
+  padding: var(--space-xl) 0;
+  /* Stops the sticky header from covering section titles after clicking a nav link */
+  scroll-margin-top: 60px;
+}
+
+.section-alt {
+  background: var(--color-bg-alt);
+}
+
+.section p + p {
+  margin-top: var(--space-m);
+}
+
+/* ---------- Project cards ---------- */
+/* Phones: one column of cards stacked with space between */
+.cards {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden; /* clips the colored band to the rounded corners */
+  background: var(--color-bg);
+}
+
+/* Colored strip standing in for a project screenshot until there are real images */
+.card-band {
+  height: 120px;
+  background: linear-gradient(135deg, var(--color-primary), #7b9bff);
+}
+
+.card-body {
+  padding: var(--space-l) var(--space-m);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  margin: var(--space-s) 0;
+}
+
+.card p {
+  color: var(--color-muted);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px; /* large value = fully rounded pill shape */
+  background: #fff4d6;
+  color: #8a5a00;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ---------- Contact ---------- */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-m);
+}
+
+.contact-list li + li {
+  margin-top: var(--space-s);
+}
+
+.contact-list a {
+  font-size: 1.15rem;
+  font-weight: 600;
+  /* Lets the long email address wrap instead of overflowing on narrow phones */
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: var(--space-l) 0;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ---------- Wider screens (768px and up) ---------- */
+@media (min-width: 768px) {
+  /* Hide the hamburger and show the links in a row */
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-links,
+  .nav-links.open {
+    display: flex;
+    position: static;
+    gap: var(--space-l);
+    padding: 0;
+    border: none;
+  }
+
+  .hero {
+    padding: 6rem 0;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  /* Three equal-width cards side by side */
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Makes the page fit the phone's screen width instead of a zoomed-out desktop view -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>William Zhuang | Portfolio</title>
+  <meta name="description" content="William Zhuang: high school student learning to code with AI and building websites and tools for small businesses.">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- "defer" waits to run the script until the HTML has loaded, so it can find the elements -->
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#hero" class="logo">William Zhuang</a>
+
+      <nav aria-label="Main">
+        <!-- Hamburger button: only shown on small screens (see CSS).
+             aria-expanded tells screen readers whether the menu is open. -->
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">
+          <span class="visually-hidden">Menu</span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
+
+        <ul id="nav-links" class="nav-links">
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero: the first thing visitors see -->
+    <section id="hero" class="hero">
+      <div class="container">
+        <p class="hero-kicker">Hi, I'm</p>
+        <h1>William Zhuang</h1>
+        <p class="hero-pitch">
+          High school student learning to code with AI, building websites and tools
+          for small businesses.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="button">See my projects</a>
+          <a href="#contact" class="button button-outline">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-band" aria-hidden="true"></div>
+            <div class="card-body">
+              <span class="badge">In progress</span>
+              <h3>Small Business Website #1</h3>
+              <p>A custom website designed for a local small business, built to show them what a modern site could do for them.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-band" aria-hidden="true"></div>
+            <div class="card-body">
+              <span class="badge">In progress</span>
+              <h3>Small Business Website #2</h3>
+              <p>A second website for a different local business, tailored to its customers and the way it works.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-band" aria-hidden="true"></div>
+            <div class="card-body">
+              <span class="badge">In progress</span>
+              <h3>Review Reply &amp; Dashboard App</h3>
+              <p>An app that helps small businesses reply to their reviews and gives them a dashboard showing what to work on next.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section section-alt">
+      <div class="container narrow">
+        <h2>About</h2>
+        <p>
+          I'm a high school student at The Bishop's School. This portfolio is part of a project
+          to learn how to code using AI by building real things for real people.
+        </p>
+        <p>
+          My goal is to create websites for two local small businesses and then build an app that
+          helps small businesses manage and respond to their online reviews.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container narrow">
+        <h2>Contact</h2>
+        <p>Have a small business that could use a website? I'd love to hear from you.</p>
+        <ul class="contact-list">
+          <!-- "mailto:" opens the visitor's email app -->
+          <li><a href="mailto:williamzhuang4@gmail.com">williamzhuang4@gmail.com</a></li>
+          <!-- "tel:" lets phones dial the number when tapped -->
+          <li><a href="tel:+18582208664">858-220-8664</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <!-- The year is filled in by js/main.js so it never goes out of date -->
+      <p>&copy; <span id="year">2026</span> William Zhuang</p>
+    </div>
+  </footer>
+
+</body>
+</html>
