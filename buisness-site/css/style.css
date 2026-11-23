@@ -1,0 +1,542 @@
+/* =========================================================
+   All In Coaching: concept site styles
+   Mobile-first: the base styles below are for phones.
+   Bigger screens get extra rules inside @media blocks at the bottom of each section.
+   ========================================================= */
+
+/* ---------- Design tokens ----------
+   Every color, font and spacing value lives here, so changing
+   the look of the whole site means editing just this block. */
+:root {
+  /* Colors: neutrals plus ONE accent (site-style rule) */
+  --color-ink: #111111;       /* near-black for text and dark sections */
+  --color-paper: #f6f4f0;     /* warm off-white page background */
+  --color-white: #ffffff;
+  --color-muted: #555555;     /* secondary text on light backgrounds (about 6.9:1 contrast) */
+  --color-muted-dark: #b5b0a8;/* secondary text on dark backgrounds (about 8:1 contrast) */
+  --color-line: #ddd8d0;      /* thin borders on light backgrounds */
+  --color-line-dark: #333333; /* thin borders on dark backgrounds */
+  --color-accent: #ff5a1f;    /* "all in" orange. Always put BLACK text on it: white would fail contrast */
+
+  /* Fonts: one bold headline font + one readable body font */
+  --font-heading: "Archivo", "Arial Black", sans-serif;
+  --font-body: "Source Serif 4", Georgia, serif;
+
+  /* Spacing scale: 4, 8, 16, 24, 32, 48, 64px (written in rem; 1rem = 16px).
+     Only use these for margins, padding and gaps so the rhythm stays consistent. */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem;  /* 8px */
+  --space-3: 1rem;    /* 16px */
+  --space-4: 1.5rem;  /* 24px */
+  --space-5: 2rem;    /* 32px */
+  --space-6: 3rem;    /* 48px */
+  --space-7: 4rem;    /* 64px */
+
+  --max-width: 70rem;     /* widest the content gets on big screens */
+  --reading-width: 40rem; /* paragraphs wider than this get hard to read */
+}
+
+/* ---------- Base ---------- */
+
+/* Makes width/height include padding and borders, which makes sizing far less surprising */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.125rem; /* 18px: comfortable reading size */
+  line-height: 1.6;
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+
+img {
+  max-width: 100%;
+  display: block; /* removes the small gap browsers leave under images */
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 0 0 var(--space-3);
+}
+
+/* clamp(min, preferred, max) lets headings grow with the screen width
+   but never get smaller than the min or bigger than the max. */
+h1 { font-size: clamp(2.5rem, 9vw, 6rem); }
+h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+h3 { font-size: 1.5rem; }
+
+p {
+  margin: 0 0 var(--space-3);
+  max-width: var(--reading-width);
+}
+
+a {
+  color: inherit;
+}
+
+/* A thick, visible outline when someone tabs through the page with a keyboard */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Hidden until a keyboard user presses Tab, then it lets them jump past the nav */
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -100%;
+  z-index: 100;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-family: var(--font-heading);
+  font-weight: 800;
+}
+
+.skip-link:focus {
+  top: var(--space-3);
+}
+
+/* ---------- Layout helpers ---------- */
+
+/* Centers content and keeps it from touching the screen edges */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-3);
+}
+
+.section {
+  padding: var(--space-7) 0;
+}
+
+.section--dark {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.section--dark .muted {
+  color: var(--color-muted-dark);
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+/* Small uppercase label that sits above a heading */
+.eyebrow {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 48rem) {
+  .container {
+    padding: 0 var(--space-5);
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-block;
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-accent);
+  color: var(--color-ink); /* black on orange passes WCAG AA; white would not */
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid var(--color-accent);
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn:hover {
+  background: var(--color-ink);
+  color: var(--color-accent);
+}
+
+/* On dark backgrounds the hover state needs a light fill instead */
+.hero .btn:hover,
+.section--dark .btn:hover {
+  background: transparent;
+  color: var(--color-white);
+}
+
+.btn--small {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  min-height: 2.75rem; /* 44px: the smallest comfortable size for a finger tap */
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- Header and navigation ---------- */
+
+/* The header floats on top of each page's hero photo */
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  color: var(--color-white);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin-right: auto; /* pushes everything after the logo to the right side */
+}
+
+/* The orange square after "ALL IN" is a small brand mark made with CSS, no image needed */
+.logo span {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-left: var(--space-1);
+  background: var(--color-accent);
+}
+
+.logo small {
+  display: block;
+  font-size: 0.6em;
+  letter-spacing: 0.3em;
+}
+
+.menu-toggle {
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: inherit;
+  border: 2px solid currentColor;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* On phones the nav is hidden until the Menu button adds the "is-open" class (see js/main.js) */
+.site-nav {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-ink);
+  padding: var(--space-3);
+}
+
+.site-nav.is-open {
+  display: block;
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  display: block;
+  padding: var(--space-3) 0;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+/* aria-current="page" marks the link for the page you're on; we underline it in orange */
+.site-nav a[aria-current="page"],
+.site-nav a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+
+@media (min-width: 48rem) {
+  .menu-toggle {
+    display: none;
+  }
+
+  /* "order" changes where a flex item appears without changing the HTML.
+     On phones the Call button sits next to Menu; on wider screens it moves after the nav links. */
+  .header-inner .btn--small {
+    order: 1;
+  }
+
+  /* On tablets and up, the nav is always visible and sits in a row */
+  .site-nav {
+    display: block;
+    position: static;
+    background: none;
+    padding: 0;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .site-nav a {
+    padding: var(--space-2) 0;
+    font-size: 0.875rem;
+  }
+}
+
+/* ---------- Hero (the big photo section at the top of each page) ---------- */
+
+.hero {
+  position: relative;
+  isolation: isolate; /* keeps the photo and overlay layers stacked inside the hero only */
+  display: flex;
+  align-items: flex-end;
+  min-height: 60vh;
+  padding: var(--space-7) 0;
+  padding-top: calc(var(--space-7) * 2); /* 128px: leaves room for the header that floats on top */
+  background: var(--color-ink);
+  color: var(--color-white);
+}
+
+/* Full-screen version for the home page. svh = "small viewport height", which
+   avoids mobile browser toolbars covering the bottom. vh is a fallback for older browsers. */
+.hero--full {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.hero--plain {
+  min-height: 0;
+}
+
+/* The photo fills the hero behind the text */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crops the photo to fill the space without stretching it */
+  z-index: -2;
+}
+
+/* A dark overlay between the photo and the text so white text always stays readable */
+.hero-photo + .hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.8));
+}
+
+.hero h1 {
+  max-width: 12em;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-5);
+}
+
+/* ---------- Cards (the three programs) ---------- */
+
+.cards {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.card {
+  padding: var(--space-5);
+  background: var(--color-white);
+  border-top: 6px solid var(--color-ink);
+}
+
+/* The big 01 / 02 / 03 is decoration that shows the programs as steps */
+.card-number {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--color-accent);
+  -webkit-text-stroke: 1px var(--color-ink); /* the outline helps the orange show up on white */
+}
+
+.card .text-link {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (min-width: 48rem) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- Split section (photo on one side, text on the other) ---------- */
+
+.split {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.split img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (min-width: 48rem) {
+  .split {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-7);
+  }
+}
+
+/* ---------- Call-to-action band ---------- */
+
+.cta-band {
+  text-align: center;
+}
+
+.cta-band p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- Contact page ---------- */
+
+.contact-grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.contact-block {
+  margin-bottom: var(--space-5);
+}
+
+.contact-block h2 {
+  font-size: 1.5rem;
+}
+
+address {
+  font-style: normal; /* browsers italicize <address> by default */
+}
+
+.big-phone {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(1.75rem, 7vw, 3rem);
+  text-decoration: none;
+  white-space: nowrap; /* keeps the phone number on one line */
+}
+
+.hours {
+  width: 100%;
+  max-width: 24rem;
+  border-collapse: collapse;
+}
+
+.hours th,
+.hours td {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+}
+
+.hours th {
+  font-weight: 600;
+}
+
+.hours td {
+  text-align: right;
+}
+
+.map {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  background: var(--color-line); /* shows a gray box while the map loads */
+}
+
+@media (min-width: 64rem) {
+  .contact-grid {
+    grid-template-columns: 1fr 1.4fr;
+  }
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  padding: var(--space-6) 0;
+  background: var(--color-ink);
+  color: var(--color-muted-dark);
+  border-top: 1px solid var(--color-line-dark);
+  font-size: 1rem;
+}
+
+.footer-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.site-footer .logo {
+  color: var(--color-white);
+}
+
+.concept-note {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line-dark);
+  font-size: 0.875rem;
+  max-width: none; /* overrides the paragraph reading width so the divider line spans the whole footer */
+}
+
+@media (min-width: 48rem) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- Respect users who turn off animations in their OS settings ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
